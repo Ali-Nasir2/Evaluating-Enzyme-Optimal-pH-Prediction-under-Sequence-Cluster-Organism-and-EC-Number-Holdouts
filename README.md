@@ -1,141 +1,89 @@
 # Evaluating Enzyme Optimal-pH Prediction under Sequence-Cluster, Organism, and EC-Number Holdouts
 
-This repository is a reproducible research codebase for studying whether enzyme optimal-pH prediction models generalize beyond closely related proteins, organisms, enzyme classes, or sequence clusters represented during training.
+This repository contains the code, configurations, split definitions, selected
+metrics, and diagnostic artifacts for evaluating enzyme optimal-pH prediction
+under increasingly demanding distribution shifts. The evaluated strategies are:
 
-The project starts with conservative data loading and validation. It does not fabricate datasets, metrics, citations, or biological conclusions.
+- generated random and exact-sequence-disjoint splits;
+- MMseqs2 sequence-cluster holdouts at 90%, 70%, and 50% nominal identity;
+- organism-held-out splits;
+- complete EC-number-held-out splits; and
+- the dataset-provided train/validation/test partition.
 
-## Current Status
+The repository contains reproducibility materials, not the manuscript. The
+paper source and PDF are intentionally excluded.
 
-Phase 1 scaffold is implemented:
+## Dataset and provenance
 
-- Repository structure
-- YAML configuration
-- Dependency files
-- Dataset loading module
-- Dataset validation module
-- Data-quality report generation
-- Unit tests for loading and validation
-- LaTeX paper scaffold
-- Handcrafted sequence-feature generation
-- Initial baseline training on the dataset-provided split
-- Reproducible random and exact-duplicate-safe split generation
-- FASTA export and external sequence-clustering command generation
-- Baseline training across generated split strategies
-- Organism-held-out split generation
+The original data are the EpHod/pHopt enzyme optimal-pH dataset:
 
-The current baseline metrics are preliminary. Generated random, exact-duplicate-safe, 90% MMseqs2 cluster-safe, and organism-held-out split definitions are available in `data/splits/`. EC-held-out splits are a later phase.
+- Gado, J. E., Knotts, M., Shaw, A. Y., et al. “Machine learning prediction
+  of enzyme optimal pH.” *Nature Machine Intelligence* 7, 716–729 (2025).
+  [Publication DOI](https://doi.org/10.1038/s42256-025-01026-6)
+- Zenodo record: [10.5281/zenodo.14252615](https://doi.org/10.5281/zenodo.14252615)
+- Dataset version: 1, published 2023-06-06
+- License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
-## Dataset Placement
+Download `pHopt_data.csv` from Zenodo and place it in `data/raw/`. The raw
+dataset is not redistributed in this repository. The complete provenance
+record, expected file details, and checksums are in
+[`data/raw/README.md`](data/raw/README.md).
 
-Place the real enzyme optimal-pH dataset in:
+The analysis used 9,855 cleaned records. The original dataset-provided labels
+contain 7,124 training, 760 validation, and 1,971 testing records. The
+generated random split contains 6,898 training, 1,478 validation, and 1,479
+testing records; these are different partitions and should not be conflated.
 
-```text
-data/raw/
-```
+## Repository contents
 
-Supported input formats:
+- [`src/`](src/) — feature extraction, embeddings, splitting, models, and
+  evaluation utilities.
+- [`scripts/`](scripts/) — data preparation, split creation, training,
+  evaluation, source-label, similarity-audit, and repeated-seed commands.
+- [`config/`](config/) — experiment configuration.
+- [`tests/`](tests/) — automated tests.
+- [`data/splits/`](data/splits/) — generated partition assignments and parsed
+  cluster assignments.
+- [`outputs/metrics/`](outputs/metrics/) — saved metrics, confidence intervals,
+  paired comparisons, subgroup results, and selected diagnostics.
+- [`outputs/metrics/cluster_similarity_audit_20261025/`](outputs/metrics/cluster_similarity_audit_20261025/)
+  — returned-hit MMseqs2 similarity audit, settings, commands, missing-hit
+  records, and partition copies.
+- [`outputs/metrics/repeated_grouped_300tree_20261025/`](outputs/metrics/repeated_grouped_300tree_20261025/)
+  — documented five-seed (42–46) 300-tree grouped evaluation, target
+  distributions, settings, commands, and partition assignments.
+- [`reports/`](reports/) — data-quality, experiment-summary, and source-label
+  audit reports.
 
-- `.csv`
-- `.tsv`
-- `.txt` tab-separated files
-- `.json`
-- `.jsonl`
-- `.xlsx` or `.xls`
-- `.fasta`, `.fa`, `.faa`, `.fas`
+## Environment and installation
 
-For tabular datasets, the expected columns are configured in `config/default.yaml`.
+The main environment files are [`requirements.txt`](requirements.txt),
+[`environment.yml`](environment.yml), and
+[`environment-embeddings.yml`](environment-embeddings.yml). The saved
+embedding run used Python 3.12.13, PyTorch 2.11.0+cu128, and
+`facebook/esm2_t6_8M_UR50D`.
 
-Default expected column names:
+Create an environment and install the dependencies:
 
-| Field | Default column | Required |
-| --- | --- | --- |
-| Protein or enzyme identifier | `protein_id` | recommended |
-| Amino-acid sequence | `sequence` | yes |
-| Experimental optimal pH | `optimal_ph` | yes |
-| Organism | `organism` | recommended |
-| Taxonomy | `taxonomy` | optional |
-| EC number | `ec_number` | optional |
-
-If your dataset uses different names, edit `config/default.yaml` before running the pipeline.
-
-For FASTA files, sequence identifiers are read from the FASTA headers, but optimal-pH labels and metadata usually require a separate tabular metadata file. The validator will clearly report missing target values if only FASTA sequences are present.
-
-## Initial Data Inspection
-
-After placing the dataset in `data/raw/`, run:
-
-```bash
-python scripts/prepare_data.py --config config/default.yaml
-```
-
-This will:
-
-- Detect dataset files in `data/raw/`
-- Load supported file formats
-- Validate required columns
-- Check sequence validity
-- Check duplicate identifiers and sequences
-- Check pH range
-- Save a cleaned dataset to `data/processed/cleaned_dataset.csv`
-- Save a validation summary to `reports/data_quality_report.md`
-
-The raw dataset is never modified.
-
-## Installation
-
-Create a virtual environment, then install dependencies:
-
-```bash
+```powershell
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Alternatively, with conda:
+Run the test suite with:
 
-```bash
-conda env create -f environment.yml
-conda activate enzyme-ph-generalization
-```
-
-For Phase 7 protein embeddings, use a Python 3.12 environment because PyTorch on Windows currently supports Python 3.9-3.12:
-
-```bash
-conda env create -f environment-embeddings.yml
-conda activate enzyme-ph-embeddings
-```
-
-## Tests
-
-Run:
-
-```bash
+```powershell
 pytest
 ```
 
-## Planned Workflow
+## Reproduction workflow
 
-The intended command workflow is:
+After downloading the source CSV into `data/raw/`, the main workflow is:
 
-```bash
+```powershell
 python scripts/prepare_data.py --config config/default.yaml
 python scripts/generate_features.py --config config/default.yaml
-python scripts/generate_embeddings.py --config config/default.yaml
-python scripts/create_splits.py --config config/default.yaml
-python scripts/train_baselines.py --config config/default.yaml
-python scripts/train_embedding_models.py --config config/default.yaml
-python scripts/evaluate_models.py --config config/default.yaml
-python scripts/run_full_pipeline.py --config config/default.yaml
-```
-
-Only `prepare_data.py` is implemented in Phase 1. Later scripts are placeholders until their phases are reached.
-
-Currently implemented:
-
-```bash
-python scripts/prepare_data.py --config config/default.yaml
-python scripts/generate_features.py --config config/default.yaml
-python scripts/cluster_sequences.py --config config/default.yaml
 python scripts/create_splits.py --config config/default.yaml
 python scripts/train_baselines.py --config config/default.yaml --include-dataset-split
 python scripts/generate_embeddings.py --config config/default.yaml
@@ -145,164 +93,61 @@ python scripts/analyze_errors.py --config config/default.yaml
 python scripts/generate_figures.py --config config/default.yaml
 ```
 
-## Sequence Clustering
+The checked-in metrics and diagnostics are the saved outputs from the completed
+analysis. Re-running the workflow may require the local dataset, the ESM-2
+model cache, and MMseqs2.
 
-Phase 5 prepares clustering inputs and parsers, but real sequence-similarity clusters require an external protein clustering tool.
+## Models and features
 
-Create the FASTA file and clustering command file:
+The handcrafted input contains 35 numeric sequence features. Metadata and
+targets (`Accession`, `pHopt`, `Organism`, `EC Number`, and `Split`) are
+excluded from model inputs. The learned models use median imputation; Ridge
+also uses standard scaling. The main random forest uses 300 trees and
+`random_state=42`. Histogram gradient boosting is configured with
+`max_iter=300` and library-default early-stopping behavior.
 
-```bash
-python scripts/cluster_sequences.py --config config/default.yaml
-```
+The embedding model is frozen ESM-2
+`facebook/esm2_t6_8M_UR50D`. Embeddings use the final hidden state with mean
+pooling over residue tokens, excluding special and padding tokens.
 
-This writes:
+## Sequence-cluster evaluation and similarity audit
 
-```text
-data/processed/clusters/sequences.fasta
-data/processed/clusters/run_clustering_commands.ps1
-```
+MMseqs2 clustering was run with `easy-cluster`, `-c 0.80`,
+`--cov-mode 0`, `--threads 4`, and nominal minimum identities of 0.50, 0.70,
+and 0.90. The saved executable hash and exact commands are recorded in the
+similarity-audit output directory.
 
-Install MMseqs2 or CD-HIT, then run the command block for one tool and threshold from `run_clustering_commands.ps1`. After the raw clustering output exists, parse it, for example:
+The saved audit is explicitly a **returned-hit audit**: it used
+`easy-search --max-seqs 1`, so it does not prove that the returned hit is the
+globally highest-scoring qualifying training hit. Identity is reported in
+percentage units by MMseqs2. Coverage-qualified exceedance counts and
+100%-identity returned hits are documented in the saved audit files. These
+results should not be described as exhaustive nearest-neighbor verification.
 
-```bash
-python scripts/cluster_sequences.py --config config/default.yaml --parse-mmseqs data/processed/clusters/mmseqs_identity_90_cluster.tsv --identity 0.90
-python scripts/create_splits.py --config config/default.yaml
-```
+## Statistical and robustness artifacts
 
-Cluster-based split files are generated only after real clustering assignments are available.
+[`outputs/metrics/paired_feature_group_comparisons.csv`](outputs/metrics/paired_feature_group_comparisons.csv)
+contains 40 paired comparison rows: eight split strategies across five model
+types. The saved Holm correction family therefore contains 40 rows, including
+24 learned-model comparisons. Paired MAE differences and bootstrap confidence
+intervals are included.
 
-## Baseline Split Comparison
+The full documented repeated grouped evaluation is in
+[`outputs/metrics/repeated_grouped_300tree_20261025/`](outputs/metrics/repeated_grouped_300tree_20261025/).
+It evaluates organism-held-out and EC-held-out strategies for seeds 42–46
+using the main 300-tree random-forest configuration. Sample standard
+deviations are calculated with `ddof=1`.
 
-After cluster assignments exist, train baselines across all generated split definitions:
+The source-label audit, including the questioned B5LXD7 record and sensitivity
+outputs, is documented in
+[`reports/source_label_audit.csv`](reports/source_label_audit.csv) and
+[`outputs/metrics/source_label_sensitivity.csv`](outputs/metrics/source_label_sensitivity.csv).
 
-```bash
-python scripts/train_baselines.py --config config/default.yaml --include-dataset-split
-```
+## Reproducibility and limitations
 
-This writes:
-
-```text
-outputs/metrics/baseline_metrics_by_strategy.csv
-outputs/metrics/baseline_generalization_comparison.csv
-outputs/predictions/baseline_predictions_by_strategy.csv
-```
-
-## Protein Embeddings
-
-Phase 7 supports frozen ESM-2 embeddings using Hugging Face Transformers. The default model is:
-
-```text
-facebook/esm2_t6_8M_UR50D
-```
-
-Generate cached embeddings:
-
-```bash
-python scripts/generate_embeddings.py --config config/default.yaml
-```
-
-This writes:
-
-```text
-data/processed/embeddings/esm2_t6_8M_UR50D_embeddings.npy
-data/processed/embeddings/esm2_t6_8M_UR50D_metadata.json
-```
-
-Train embedding-based regressors across split strategies:
-
-```bash
-python scripts/train_embedding_models.py --config config/default.yaml --include-dataset-split
-```
-
-This writes:
-
-```text
-outputs/metrics/embedding_metrics_by_strategy.csv
-outputs/metrics/embedding_generalization_comparison.csv
-outputs/predictions/embedding_predictions_by_strategy.csv
-```
-
-Feature-group comparison outputs:
-
-```text
-outputs/metrics/feature_group_test_metrics.csv
-outputs/metrics/feature_group_mae_comparison.csv
-```
-
-## Evaluation Tables
-
-Create consistent evaluation outputs after baseline and embedding predictions exist:
-
-```bash
-python scripts/evaluate_models.py --config config/default.yaml
-```
-
-This writes:
-
-```text
-outputs/metrics/bootstrap_confidence_intervals.csv
-outputs/metrics/model_comparison_table.csv
-outputs/metrics/performance_by_ph_range.csv
-outputs/metrics/performance_by_subgroup.csv
-outputs/metrics/paired_feature_group_comparisons.csv
-outputs/predictions/top_50_errors_by_model.csv
-reports/tables/model_comparison_table.tex
-reports/tables/performance_by_ph_range.tex
-paper/tables/model_comparison_table.tex
-paper/tables/performance_by_ph_range.tex
-```
-
-## Error Analysis and Figures
-
-Generate focused error-analysis tables:
-
-```bash
-python scripts/analyze_errors.py --config config/default.yaml
-```
-
-Generate publication figures:
-
-```bash
-python scripts/generate_figures.py --config config/default.yaml
-```
-
-Figures are saved as both PNG and PDF in:
-
-```text
-reports/figures/
-```
-
-## Paper
-
-The LaTeX manuscript scaffold is in `paper/`.
-
-Preferred build command:
-
-```bash
-cd paper
-latexmk -pdf main.tex
-```
-
-Alternative:
-
-```bash
-cd paper
-pdflatex main.tex
-bibtex main
-pdflatex main.tex
-pdflatex main.tex
-```
-
-The paper intentionally contains placeholders for results, tables, figures, and citations until real experiments are complete.
-
-## Scientific Safeguards
-
-This project will not:
-
-- Generate fake biological data
-- Invent metrics or results
-- Split exact duplicate sequences across train and test sets
-- Fit scalers or feature-selection logic before splitting
-- Tune models on test data
-- Claim biological mechanisms from correlations alone
-- Claim significance without statistical analysis
+Split assignments, commands, settings, and generated results are preserved
+where available. The repository does not claim that cluster-disjoint
+assignments alone prove a complete homology exclusion. In particular, the
+returned-hit audit has the sensitivity limitation described above. The
+published source-label critique also means that disagreement with an extreme
+reported pH value should not automatically be interpreted as model failure.

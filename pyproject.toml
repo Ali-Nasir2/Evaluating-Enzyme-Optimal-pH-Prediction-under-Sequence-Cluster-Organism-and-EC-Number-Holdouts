@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "enzyme-ph-generalization"
+version = "0.1.0"
+description = "Reproducible ML research pipeline for enzyme optimal-pH generalization experiments."
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.setuptools]
+packages = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+

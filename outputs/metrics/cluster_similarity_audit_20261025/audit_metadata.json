@@ -1,0 +1,37 @@
+{
+  "mmseqs_binary": "C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs-win64\\mmseqs\\bin\\mmseqs.exe",
+  "mmseqs_version": "8cc5ce367b5638c4306c2d7cfc652dd099a4643f",
+  "settings": {
+    "search": "easy-search",
+    "min_seq_id": 0,
+    "coverage": 0,
+    "cov_mode": 0,
+    "max_seqs": 1,
+    "format_output": "query,target,pident,qcov,tcov",
+    "thresholds": [
+      50,
+      70,
+      90
+    ]
+  },
+  "commands": [
+    {
+      "threshold": 0.5,
+      "command": "C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs-win64\\mmseqs\\bin\\mmseqs.exe easy-search C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs_similarity_audit_e696t94e\\test_50.faa C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs_similarity_audit_e696t94e\\train_50.faa C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs_similarity_audit_e696t94e\\search_50 C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs_similarity_audit_e696t94e\\tmp_50 --min-seq-id 0 -c 0 --cov-mode 0 --max-seqs 1 --format-output query,target,pident,qcov,tcov",
+      "train_count": 6872,
+      "test_count": 1544
+    },
+    {
+      "threshold": 0.7,
+      "command": "C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs-win64\\mmseqs\\bin\\mmseqs.exe easy-search C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs_similarity_audit_e696t94e\\test_70.faa C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs_similarity_audit_e696t94e\\train_70.faa C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs_similarity_audit_e696t94e\\search_70 C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs_similarity_audit_e696t94e\\tmp_70 --min-seq-id 0 -c 0 --cov-mode 0 --max-seqs 1 --format-output query,target,pident,qcov,tcov",
+      "train_count": 6908,
+      "test_count": 1481
+    },
+    {
+      "threshold": 0.9,
+      "command": "C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs-win64\\mmseqs\\bin\\mmseqs.exe easy-search C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs_similarity_audit_e696t94e\\test_90.faa C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs_similarity_audit_e696t94e\\train_90.faa C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs_similarity_audit_e696t94e\\search_90 C:\\Users\\alina\\AppData\\Local\\Temp\\mmseqs_similarity_audit_e696t94e\\tmp_90 --min-seq-id 0 -c 0 --cov-mode 0 --max-seqs 1 --format-output query,target,pident,qcov,tcov",
+      "train_count": 6902,
+      "test_count": 1473
+    }
+  ]
+}

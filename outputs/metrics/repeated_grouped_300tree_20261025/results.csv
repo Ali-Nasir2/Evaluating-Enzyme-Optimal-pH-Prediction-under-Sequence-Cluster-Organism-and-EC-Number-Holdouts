@@ -1,0 +1,41 @@
+strategy,group_column,seed,feature_group,model,n_train,n_test,model_mae,baseline,baseline_mae,mae_minus_baseline
+organism_held_out,Organism,42,handcrafted,random_forest,6899,1478,0.5944460839759147,training_mean,0.7099064150223966,-0.1154603310464819
+organism_held_out,Organism,42,handcrafted,random_forest,6899,1478,0.5944460839759147,training_median,0.6305953991880919,-0.036149315212177235
+organism_held_out,Organism,42,esm2_embedding,random_forest,6899,1478,0.5360482196196775,training_mean,0.7099064150223966,-0.17385819540271907
+organism_held_out,Organism,42,esm2_embedding,random_forest,6899,1478,0.5360482196196775,training_median,0.6305953991880919,-0.09454717956841441
+organism_held_out,Organism,43,handcrafted,random_forest,6899,1478,0.5730711925166998,training_mean,0.6800230426994087,-0.10695185018270892
+organism_held_out,Organism,43,handcrafted,random_forest,6899,1478,0.5730711925166998,training_median,0.5827740189445195,-0.009702826427819722
+organism_held_out,Organism,43,esm2_embedding,random_forest,6899,1478,0.5214820776503353,training_mean,0.6800230426994087,-0.15854096504907345
+organism_held_out,Organism,43,esm2_embedding,random_forest,6899,1478,0.5214820776503353,training_median,0.5827740189445195,-0.06129194129418425
+organism_held_out,Organism,44,handcrafted,random_forest,6899,1478,0.5756023719848786,training_mean,0.6946882841368041,-0.11908591215192543
+organism_held_out,Organism,44,handcrafted,random_forest,6899,1478,0.5756023719848786,training_median,0.6107645466847089,-0.035162174699830295
+organism_held_out,Organism,44,esm2_embedding,random_forest,6899,1478,0.5265843106836778,training_mean,0.6946882841368041,-0.16810397345312622
+organism_held_out,Organism,44,esm2_embedding,random_forest,6899,1478,0.5265843106836778,training_median,0.6107645466847089,-0.08418023600103108
+organism_held_out,Organism,45,handcrafted,random_forest,6899,1478,0.5825324208497107,training_mean,0.7030509000833798,-0.1205184792336691
+organism_held_out,Organism,45,handcrafted,random_forest,6899,1478,0.5825324208497107,training_median,0.6134506089309877,-0.030918188081276998
+organism_held_out,Organism,45,esm2_embedding,random_forest,6899,1478,0.52869168167102,training_mean,0.7030509000833798,-0.1743592184123598
+organism_held_out,Organism,45,esm2_embedding,random_forest,6899,1478,0.52869168167102,training_median,0.6134506089309877,-0.0847589272599677
+organism_held_out,Organism,46,handcrafted,random_forest,6899,1478,0.5881849173528569,training_mean,0.7001216930303679,-0.11193677567751092
+organism_held_out,Organism,46,handcrafted,random_forest,6899,1478,0.5881849173528569,training_median,0.613254397834912,-0.02506948048205504
+organism_held_out,Organism,46,esm2_embedding,random_forest,6899,1478,0.5247261550984097,training_mean,0.7001216930303679,-0.17539553793195817
+organism_held_out,Organism,46,esm2_embedding,random_forest,6899,1478,0.5247261550984097,training_median,0.613254397834912,-0.08852824273650228
+ec_held_out,EC Number,42,handcrafted,random_forest,6899,1478,0.8843827428206287,training_mean,1.0997246703401349,-0.2153419275195062
+ec_held_out,EC Number,42,handcrafted,random_forest,6899,1478,0.8843827428206287,training_median,1.1343166441136672,-0.2499339012930385
+ec_held_out,EC Number,42,esm2_embedding,random_forest,6899,1478,0.8321122868204563,training_mean,1.0997246703401349,-0.26761238351967853
+ec_held_out,EC Number,42,esm2_embedding,random_forest,6899,1478,0.8321122868204563,training_median,1.1343166441136672,-0.3022043572932108
+ec_held_out,EC Number,43,handcrafted,random_forest,6899,1478,0.8959694588354061,training_mean,1.0554464287640675,-0.15947696992866134
+ec_held_out,EC Number,43,handcrafted,random_forest,6899,1478,0.8959694588354061,training_median,1.0743031123139375,-0.17833365347853136
+ec_held_out,EC Number,43,esm2_embedding,random_forest,6899,1478,0.8531797752217711,training_mean,1.0554464287640675,-0.20226665354229634
+ec_held_out,EC Number,43,esm2_embedding,random_forest,6899,1478,0.8531797752217711,training_median,1.0743031123139375,-0.22112333709216636
+ec_held_out,EC Number,44,handcrafted,random_forest,6899,1478,0.8530890928324419,training_mean,0.9888246556099107,-0.1357355627774688
+ec_held_out,EC Number,44,handcrafted,random_forest,6899,1478,0.8530890928324419,training_median,1.0029634641407308,-0.14987437130828885
+ec_held_out,EC Number,44,esm2_embedding,random_forest,6899,1478,0.8211638361041304,training_mean,0.9888246556099107,-0.16766081950578038
+ec_held_out,EC Number,44,esm2_embedding,random_forest,6899,1478,0.8211638361041304,training_median,1.0029634641407308,-0.18179962803660044
+ec_held_out,EC Number,45,handcrafted,random_forest,6899,1478,0.9234466468253972,training_mean,1.1214948225517967,-0.19804817572639943
+ec_held_out,EC Number,45,handcrafted,random_forest,6899,1478,0.9234466468253972,training_median,1.1469079837618403,-0.2234613369364431
+ec_held_out,EC Number,45,esm2_embedding,random_forest,6899,1478,0.8762897097106772,training_mean,1.1214948225517967,-0.24520511284111945
+ec_held_out,EC Number,45,esm2_embedding,random_forest,6899,1478,0.8762897097106772,training_median,1.1469079837618403,-0.2706182740511631
+ec_held_out,EC Number,46,handcrafted,random_forest,6899,1478,0.8429897100060142,training_mean,0.9543962393012186,-0.11140652929520445
+ec_held_out,EC Number,46,handcrafted,random_forest,6899,1478,0.8429897100060142,training_median,0.9759201623815966,-0.13293045237558243
+ec_held_out,EC Number,46,esm2_embedding,random_forest,6899,1478,0.8031980731952232,training_mean,0.9543962393012186,-0.15119816610599546
+ec_held_out,EC Number,46,esm2_embedding,random_forest,6899,1478,0.8031980731952232,training_median,0.9759201623815966,-0.17272208918637344

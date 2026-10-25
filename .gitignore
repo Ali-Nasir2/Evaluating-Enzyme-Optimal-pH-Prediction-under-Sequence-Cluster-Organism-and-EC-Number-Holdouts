@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Local data and generated outputs
+data/raw/*
+!data/raw/README.md
+data/processed/*
+!data/processed/.gitkeep
+!data/processed/embeddings/
+data/processed/embeddings/*
+!data/processed/embeddings/.gitkeep
+data/splits/*
+!data/splits/.gitkeep
+outputs/models/*
+!outputs/models/.gitkeep
+outputs/predictions/*
+!outputs/predictions/.gitkeep
+outputs/metrics/*
+!outputs/metrics/.gitkeep
+outputs/logs/*
+!outputs/logs/.gitkeep
+
+# Generated reports
+reports/figures/*
+!reports/figures/.gitkeep
+reports/tables/*
+!reports/tables/.gitkeep
+
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.gz
+*.nav
+*.snm
+*.vrb
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.matplotlib_cache/

@@ -1,0 +1,26 @@
+\begin{table}
+\caption{Best non-mean model by feature group and split strategy; MAE is shown with a row-level bootstrap 95\% confidence interval.}
+\label{tab:model-comparison}
+\begin{tabular}{lllrl}
+\toprule
+Feature group & Split strategy & Model & n examples & MAE (95\% CI) \\
+\midrule
+ESM-2 embeddings & MMseqs2 50\% & Histogram gradient boosting & 1544 & 0.682 [0.650, 0.717] \\
+ESM-2 embeddings & MMseqs2 70\% & Histogram gradient boosting & 1481 & 0.628 [0.598, 0.661] \\
+ESM-2 embeddings & MMseqs2 90\% & Histogram gradient boosting & 1473 & 0.615 [0.583, 0.647] \\
+ESM-2 embeddings & Dataset-provided & Random forest & 1971 & 0.603 [0.579, 0.630] \\
+ESM-2 embeddings & EC-number-held-out & Random forest & 1478 & 0.832 [0.791, 0.877] \\
+ESM-2 embeddings & Exact-duplicate-safe & Histogram gradient boosting & 1480 & 0.603 [0.575, 0.642] \\
+ESM-2 embeddings & Organism-held-out & Random forest & 1478 & 0.536 [0.508, 0.561] \\
+ESM-2 embeddings & Random & Random forest & 1479 & 0.625 [0.593, 0.657] \\
+Handcrafted & MMseqs2 50\% & Random forest & 1544 & 0.738 [0.705, 0.776] \\
+Handcrafted & MMseqs2 70\% & Random forest & 1481 & 0.695 [0.663, 0.729] \\
+Handcrafted & MMseqs2 90\% & Random forest & 1473 & 0.681 [0.647, 0.717] \\
+Handcrafted & Dataset-provided & Random forest & 1971 & 0.673 [0.647, 0.701] \\
+Handcrafted & EC-number-held-out & Random forest & 1478 & 0.884 [0.849, 0.929] \\
+Handcrafted & Exact-duplicate-safe & Random forest & 1480 & 0.664 [0.633, 0.702] \\
+Handcrafted & Organism-held-out & Random forest & 1478 & 0.594 [0.564, 0.623] \\
+Handcrafted & Random & Random forest & 1479 & 0.698 [0.663, 0.734] \\
+\bottomrule
+\end{tabular}
+\end{table}

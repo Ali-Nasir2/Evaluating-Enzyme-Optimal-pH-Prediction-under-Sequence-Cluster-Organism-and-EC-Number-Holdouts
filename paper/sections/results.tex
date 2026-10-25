@@ -1,0 +1,39 @@
+Across all non-mean regressors and split strategies, frozen ESM-2 embeddings achieved lower test MAE than handcrafted sequence features. On the generated random split, the best ESM-2 model was random forest regression with MAE 0.6250 and 95\% bootstrap CI [0.5930, 0.6574]. The corresponding handcrafted random forest model had MAE 0.6984. On the MMseqs2 90\% cluster-safe split, the best ESM-2 model was histogram gradient boosting with MAE 0.6148 and 95\% bootstrap CI [0.5826, 0.6474]. The corresponding handcrafted histogram gradient boosting model had MAE 0.7052.
+
+The current 90\% cluster-safe split did not produce the expected degradation relative to the generated random split. For example, ESM-2 random forest regression had MAE 0.6250 on the generated random split and 0.6164 on the 90\% cluster-safe split. ESM-2 histogram gradient boosting had MAE 0.6335 on the generated random split and 0.6148 on the 90\% cluster-safe split. These results do not support a strong leakage penalty at the 90\% sequence-identity clustering threshold, but they should not be interpreted as evidence that leakage is unimportant. At lower identities, ESM-2 histogram gradient boosting reached MAE 0.6282 at 70\% and 0.6822 at 50\%, showing the expected degradation as the held-out sequences become more distant.
+
+The organism-held-out split also showed lower MAE than the generated random split. ESM-2 random forest regression achieved MAE 0.5360 with 95\% bootstrap CI [0.5079, 0.5609], and ESM-2 histogram gradient boosting achieved MAE 0.5386 with 95\% bootstrap CI [0.5111, 0.5636]. However, the organism-held-out test set had a narrower target distribution than the generated random test set: the target-pH standard deviation was 0.9477 for the organism-held-out test set versus 1.1845 for the generated random test set. This difference likely contributes to the lower MAE and should be considered when interpreting organism generalization.
+
+On the EC-held-out split, ESM-2 random forest achieved the best test MAE at 0.8321 with 95\% bootstrap CI [0.7913, 0.8773]. ESM-2 ridge regression achieved MAE 0.8395 [0.8028, 0.8808], while the best handcrafted model, random forest, achieved MAE 0.8844. The higher EC-held-out errors indicate that generalization across enzyme classes is harder than the current random and sequence-cluster evaluations.
+
+Paired test-set comparisons of absolute error showed lower error for ESM-2 embeddings than handcrafted features for all non-mean regressors across all available split strategies. Wilcoxon test results were written to \texttt{outputs/metrics/paired\_feature\_group\_comparisons.csv}. Holm--Bonferroni adjustment was applied across the full family of 32 paired tests; all 24 non-mean comparisons remained significant at adjusted \(\alpha=0.05\), while mean-predictor comparisons were unchanged because their paired errors are identical.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/embedding_vs_handcrafted_mae_change.pdf}
+    \caption{Change in test MAE when replacing handcrafted sequence features with frozen ESM-2 embeddings. Negative values indicate lower MAE for embeddings.}
+    \label{fig:embedding-vs-handcrafted}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.78\textwidth]{figures/random_vs_cluster_mae.pdf}
+    \caption{Selected comparison of generated random-split MAE and MMseqs2 90\% cluster-safe split MAE for evaluated models. The 70\% and 50\% cluster-safe results are reported in the text and model-comparison tables but are not plotted here. The dashed line indicates equal MAE under both split strategies.}
+    \label{fig:random-vs-cluster}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.78\textwidth]{figures/random_vs_organism_mae.pdf}
+    \caption{Selected comparison of generated random-split MAE and organism-held-out split MAE for evaluated models. The cluster-identity and EC-held-out comparisons are reported separately in the text and tables. The organism-held-out test set has a narrower target-pH distribution than the generated random test set.}
+    \label{fig:random-vs-organism}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/actual_vs_predicted_best_embedding_models.pdf}
+    \caption{Actual versus predicted optimal pH for the selected best ESM-2 embedding models represented in the generated prediction diagnostics. The full set of split-specific metrics, including 50\%, 70\%, and EC-held-out evaluations, is reported in the tables.}
+    \label{fig:actual-vs-predicted}
+\end{figure}
+
+\input{tables/performance_by_ph_range.tex}
